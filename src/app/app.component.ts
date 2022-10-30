@@ -11,7 +11,7 @@ import { getRandomCiv } from '../helpers/getRandomCiv';
 export class AppComponent {
   title = 'GoL-angular';
   width = 50;
-  height = 30;
+  height = 28;
   civ = getInitialCiv(this.width, this.height);
 
   onWidthInput(value: string) {
