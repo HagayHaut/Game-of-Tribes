@@ -1,11 +1,12 @@
 <div>
   <div 
-    *ngFor="let row of civ"
+    *ngFor="let row of civ; let r = index"
     class="flex"
   >
     <app-cell 
-      *ngFor="let isAlive of row"
+      *ngFor="let isAlive of row; let c = index"
       [isAlive] = 'isAlive'
+      [coordinates]="[r, c]"
     >
 
     </app-cell>
