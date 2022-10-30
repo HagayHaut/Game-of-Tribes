@@ -1,3 +1,13 @@
-<h1 class="text-3xl font-bold underline">
-  Hello world!
-</h1>
+<div>
+  <div 
+    *ngFor="let row of civ"
+    class="flex"
+  >
+    <app-cell 
+      *ngFor="let isAlive of row"
+      [isAlive] = 'isAlive'
+    >
+
+    </app-cell>
+  </div>
+</div>
