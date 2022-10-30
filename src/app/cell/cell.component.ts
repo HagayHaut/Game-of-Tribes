@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-cell',
@@ -8,8 +8,13 @@ import { Component, OnInit, Input } from '@angular/core';
 export class CellComponent implements OnInit {
   @Input() isAlive: boolean = false;
   @Input() coordinates: number[] = [];
+  @Output() cellClicked = new EventEmitter<{ coors: number[] }>();
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  onCellClick() {
+    this.cellClicked.emit({ coors: this.coordinates });
+  }
 }

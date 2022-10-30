@@ -13,4 +13,9 @@ export class AppComponent {
   civ = Array(HEIGHT)
     .fill([])
     .map((_, r) => Array(WIDTH).fill(false));
+
+  onChildCellClick(eventData: { coors: number[] }) {
+    const [r, c] = eventData.coors;
+    this.civ[r][c] = !this.civ[r][c];
+  }
 }

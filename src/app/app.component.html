@@ -7,6 +7,7 @@
       *ngFor="let isAlive of row; let c = index"
       [isAlive] = 'isAlive'
       [coordinates]="[r, c]"
+      (cellClicked)="onChildCellClick($event)"
     >
 
     </app-cell>
