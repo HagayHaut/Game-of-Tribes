@@ -12,7 +12,7 @@ export class AppComponent {
   title = 'GoL-angular';
   civ = Array(HEIGHT)
     .fill([])
-    .map((_, r) => Array(WIDTH).fill(false));
+    .map(() => Array(WIDTH).fill(false));
 
   onChildCellClick(eventData: { coors: number[] }) {
     const [r, c] = eventData.coors;
