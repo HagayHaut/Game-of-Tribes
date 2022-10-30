@@ -1,11 +1,6 @@
 import { Component } from '@angular/core';
 import { getNextGen } from '../helpers/getNextGen';
-
-const WIDTH = 40;
-const HEIGHT = 30;
-const INITIAL_CIV: boolean[][] = Array(HEIGHT)
-  .fill([])
-  .map(() => Array(WIDTH).fill(false));
+import { getInitialCiv } from '../helpers/getInitialCiv';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +9,9 @@ const INITIAL_CIV: boolean[][] = Array(HEIGHT)
 })
 export class AppComponent {
   title = 'GoL-angular';
-  civ = INITIAL_CIV;
+  width = 40;
+  height = 30;
+  civ = getInitialCiv(this.width, this.height);
 
   onChildCellClick(eventData: { coors: number[] }) {
     const [r, c] = eventData.coors;
@@ -22,7 +19,10 @@ export class AppComponent {
   }
 
   onNextGenClick() {
-    const nextGen: boolean[][] = getNextGen(this.civ);
-    this.civ = nextGen;
+    this.civ = getNextGen(this.civ);
+  }
+
+  onNaturalDisaster() {
+    this.civ = getInitialCiv(this.width, this.height);
   }
 }
