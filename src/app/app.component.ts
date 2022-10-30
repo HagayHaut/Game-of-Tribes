@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { getNextGen } from '../helpers/getNextGen';
 import { getInitialCiv } from '../helpers/getInitialCiv';
+import { getRandomCiv } from '../helpers/getRandomCiv';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +10,19 @@ import { getInitialCiv } from '../helpers/getInitialCiv';
 })
 export class AppComponent {
   title = 'GoL-angular';
-  width = 40;
+  width = 50;
   height = 30;
   civ = getInitialCiv(this.width, this.height);
+
+  onWidthInput(value: string) {
+    this.width = Number(value);
+    this.civ = getInitialCiv(this.width, this.height);
+  }
+
+  onHeightInput(value: string) {
+    this.height = Number(value);
+    this.civ = getInitialCiv(this.width, this.height);
+  }
 
   onChildCellClick(eventData: { coors: number[] }) {
     const [r, c] = eventData.coors;
@@ -20,6 +31,10 @@ export class AppComponent {
 
   onNextGenClick() {
     this.civ = getNextGen(this.civ);
+  }
+
+  onRandomCivClick() {
+    this.civ = getRandomCiv(this.width, this.height);
   }
 
   onNaturalDisaster() {
