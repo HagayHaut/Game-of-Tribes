@@ -1,39 +1,29 @@
 <div>
   <header class="w-full flex p-2 justify-around bg-slate-400">
-    <!-- <div class="flex">
-      <div class="flex flex-col">
-        <label for="width">Width (# cells)</label>
-        <input 
-          #widthInput
-          name="width"
-          type="number"
-          [value]="width"
-          (input)="onWidthInput(widthInput.value)"
-        >
-      </div>
-      <div class="flex flex-col">
-        <label for="height">Height (# cells)</label>
-        <input 
-          #heightInput
-          name="height"
-          type="number"
-          [value]="height"
-          (input)="onHeightInput(heightInput.value)"
-        >
-      </div>
-    </div> -->
     <button 
       class="p-2 rounded-md text-white bg-blue-500" 
       (click)="onNextGenClick()"
-    >Next Generation</button>
+    >
+      Next Generation
+    </button>
+    <button
+      class="p-2 rounded-md text-black bg-green-400"
+      (click)="onAllGenClick()"
+    >
+      {{ running ? 'Stop' : 'Play' }} Generations
+    </button>
     <button 
       class="p-2 rounded-md text-black bg-yellow-400" 
       (click)="onRandomCivClick()"
-    >Random Civilization</button>
+    >
+      Random Civilization
+    </button>
     <button 
       class="p-2 rounded-md text-white bg-red-600" 
       (click)="onNaturalDisaster()"
-    >Natural Disaster (Kill All)</button>
+    >
+      Natural Disaster
+    </button>
   </header>
   <div class="flex justify-center">
     <section>
@@ -44,6 +34,7 @@
         <app-cell 
           *ngFor="let isAlive of row; let c = index"
           [isAlive] = 'isAlive'
+          [resolution]= "resolution"
           [coordinates]="[r, c]"
           (cellClicked)="onChildCellClick($event)"
         >

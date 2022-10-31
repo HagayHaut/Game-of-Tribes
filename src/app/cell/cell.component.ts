@@ -8,6 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class CellComponent implements OnInit {
   @Input() isAlive: boolean = false;
   @Input() coordinates: number[] = [];
+  @Input() resolution: number = 0;
   @Output() cellClicked = new EventEmitter<{ coors: number[] }>();
 
   constructor() {}

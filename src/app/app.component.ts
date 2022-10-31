@@ -10,19 +10,12 @@ import { getRandomCiv } from '../helpers/getRandomCiv';
 })
 export class AppComponent {
   title = 'GoL-angular';
-  width = 60;
-  height = 28;
+  width = 76;
+  height = 35;
+  resolution = 4;
   civ = getInitialCiv(this.width, this.height);
-
-  onWidthInput(value: string) {
-    this.width = Number(value);
-    this.civ = getInitialCiv(this.width, this.height);
-  }
-
-  onHeightInput(value: string) {
-    this.height = Number(value);
-    this.civ = getInitialCiv(this.width, this.height);
-  }
+  running = false;
+  startInterval: any;
 
   onChildCellClick(eventData: { coors: number[] }) {
     const [r, c] = eventData.coors;
@@ -31,6 +24,21 @@ export class AppComponent {
 
   onNextGenClick() {
     this.civ = getNextGen(this.civ);
+  }
+
+  onAllGenClick() {
+    if (!this.running) {
+      this.startInterval = setInterval(() => {
+        this.civ = getNextGen(this.civ);
+      }, 300);
+    } else {
+      this.stopInterval();
+    }
+    this.running = !this.running;
+  }
+
+  stopInterval() {
+    clearInterval(this.startInterval);
   }
 
   onRandomCivClick() {
