@@ -1,6 +1,6 @@
-import { NextGenProp } from '../types/nextGenProp';
-
-export const getNextGen = (civilization: boolean[][]): NextGenProp => {
+export const getNextGen = (
+  civilization: boolean[][]
+): [boolean, boolean[][]] => {
   const m: number = civilization.length;
   const n: number = civilization[0].length;
   let changed: boolean = false;
