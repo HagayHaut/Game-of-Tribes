@@ -36,7 +36,7 @@ export class AppComponent {
         } else {
           this.civ = nextGen;
         }
-      }, 300);
+      }, 200);
     } else {
       this.stopInterval();
     }
