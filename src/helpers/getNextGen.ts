@@ -31,10 +31,10 @@ export const getNextGen = (civilization: boolean[][]): boolean[][] => {
 
   const nextCell = (r: number, c: number): boolean => {
     const liveNeighbors = getLiveNeighbors(r, c);
-    if (civilization[r][c]) {
-      return liveNeighbors > 1 && liveNeighbors < 4;
-    }
-    return liveNeighbors === 3;
+
+    return civilization[r][c]
+      ? liveNeighbors > 1 && liveNeighbors < 4
+      : liveNeighbors === 3;
   };
 
   for (let r = 0; r < m; r++) {
