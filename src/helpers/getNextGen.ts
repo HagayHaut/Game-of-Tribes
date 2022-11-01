@@ -1,7 +1,10 @@
-export const getNextGen = (civilization: boolean[][]): boolean[][] => {
-  const m = civilization.length;
-  const n = civilization[0].length;
-  const nextGen = Array(m)
+import { NextGenProp } from '../types/nextGenProp';
+
+export const getNextGen = (civilization: boolean[][]): NextGenProp => {
+  const m: number = civilization.length;
+  const n: number = civilization[0].length;
+  let changed: boolean = false;
+  const nextGen: boolean[][] = Array(m)
     .fill([])
     .map(() => Array(n));
 
@@ -32,9 +35,15 @@ export const getNextGen = (civilization: boolean[][]): boolean[][] => {
   const nextCell = (r: number, c: number): boolean => {
     const liveNeighbors = getLiveNeighbors(r, c);
 
-    return civilization[r][c]
+    const nextCellGen = civilization[r][c]
       ? liveNeighbors > 1 && liveNeighbors < 4
       : liveNeighbors === 3;
+
+    if (nextCellGen !== civilization[r][c]) {
+      changed = true;
+    }
+
+    return nextCellGen;
   };
 
   for (let r = 0; r < m; r++) {
@@ -43,5 +52,5 @@ export const getNextGen = (civilization: boolean[][]): boolean[][] => {
     }
   }
 
-  return nextGen;
+  return [changed, nextGen];
 };

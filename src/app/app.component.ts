@@ -23,13 +23,19 @@ export class AppComponent {
   }
 
   onNextGenClick() {
-    this.civ = getNextGen(this.civ);
+    this.civ = getNextGen(this.civ)[1];
   }
 
   onAllGenClick() {
     if (!this.running) {
       this.startInterval = setInterval(() => {
-        this.civ = getNextGen(this.civ);
+        const [changed, nextGen] = getNextGen(this.civ);
+        if (!changed) {
+          this.stopInterval();
+          this.running = false;
+        } else {
+          this.civ = nextGen;
+        }
       }, 300);
     } else {
       this.stopInterval();
