@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { getNextGen } from '../helpers/getNextGen';
 import { getInitialCiv } from '../helpers/getInitialCiv';
 import { getRandomCiv } from '../helpers/getRandomCiv';
+import { getGliderCiv } from '../helpers/getGliderCiv';
+import { getPowerColonyCiv } from '../helpers/getPowerColonyCiv';
+import { getBoatCiv } from '../helpers/getBoatCiv';
 
 @Component({
   selector: 'app-root',
@@ -17,16 +20,16 @@ export class AppComponent {
   running = false;
   startInterval: any;
 
-  onChildCellClick(eventData: { coors: number[] }) {
+  onChildCellClick(eventData: { coors: number[] }): void {
     const [r, c] = eventData.coors;
     this.civ[r][c] = !this.civ[r][c];
   }
 
-  onNextGenClick() {
+  onNextGenClick(): void {
     this.civ = getNextGen(this.civ)[1];
   }
 
-  onAllGenClick() {
+  onAllGenClick(): void {
     if (!this.running) {
       this.startInterval = setInterval(() => {
         const [changed, nextGen] = getNextGen(this.civ);
@@ -43,15 +46,27 @@ export class AppComponent {
     this.running = !this.running;
   }
 
-  stopInterval() {
+  onMakeBoatsClick() {
+    this.civ = getBoatCiv(this.width, this.height);
+  }
+
+  onMakeGlidersClick(): void {
+    this.civ = getGliderCiv(this.width, this.height);
+  }
+
+  onMakePowerColonyCiv(): void {
+    this.civ = getPowerColonyCiv(this.width, this.height);
+  }
+
+  stopInterval(): void {
     clearInterval(this.startInterval);
   }
 
-  onRandomCivClick() {
+  onRandomCivClick(): void {
     this.civ = getRandomCiv(this.width, this.height);
   }
 
-  onNaturalDisaster() {
+  onNaturalDisaster(): void {
     this.civ = getInitialCiv(this.width, this.height);
   }
 }
