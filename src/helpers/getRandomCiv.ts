@@ -4,6 +4,6 @@ export const getRandomCiv = (W: number, H: number): boolean[][] => {
     .map(() =>
       Array(W)
         .fill(false)
-        .map(() => !Math.floor(Math.random() * 3))
+        .map(() => !Math.floor(Math.random() * 4))
     );
 };
