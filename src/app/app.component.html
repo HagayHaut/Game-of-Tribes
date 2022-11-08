@@ -1,10 +1,10 @@
 <div>
   <header class="w-full flex p-2 justify-around bg-slate-400">
     <button 
-      class="p-2 rounded-md text-white bg-blue-500" 
-      (click)="onNextGenClick()"
+      class="p-2 rounded-md text-white bg-red-600" 
+      (click)="onNaturalDisaster()"
     >
-      Next Generation
+      Natural Disaster
     </button>
     <button
       class="p-2 rounded-md text-black bg-green-400"
@@ -13,35 +13,40 @@
       {{ running ? 'Stop' : 'Play' }} Generations
     </button>
     <button 
-      class="p-2 rounded-md text-black bg-yellow-400" 
-      (click)="onMakeBoatsClick()"
-    >
-      Make Boats
+      class="p-2 rounded-md text-white bg-blue-500" 
+      (click)="onNextGenClick()"
+      >
+      Next Generation
     </button>
-    <button 
-      class="p-2 rounded-md text-black bg-yellow-400" 
-      (click)="onMakeGlidersClick()"
-    >
-      Make Gliders
-    </button>
-    <button 
-      class="p-2 rounded-md text-black bg-yellow-400" 
-      (click)="onMakePowerColonyCiv()"
-    >
-      Make Power Colony
-    </button>
-    <button 
-      class="p-2 rounded-md text-black bg-yellow-400" 
-      (click)="onRandomCivClick()"
-    >
-      Make Random Civ
-    </button>
-    <button 
-      class="p-2 rounded-md text-white bg-red-600" 
-      (click)="onNaturalDisaster()"
-    >
-      Natural Disaster
-    </button>
+    <span class="flex bg-yellow-400">
+      <p class="px-2 pt-3 pd-1 ml-1">Generate</p>
+      <button 
+        class="p-2 m-1 rounded-md text-black bg-orange-400" 
+        (click)="onRandomCivClick()"
+      >
+        Random Civ
+      </button>
+      <button 
+        class="p-2 m-1 rounded-md text-black bg-orange-400" 
+        (click)="onMakeBoatsClick()"
+      >
+        Boats
+      </button>
+      <button 
+        class="p-2 m-1 rounded-md text-black bg-orange-400" 
+        (click)="onMakeGlidersClick()"
+      >
+        Gliders
+      </button>
+      <button 
+        class="p-2 m-1 rounded-md text-black bg-orange-400" 
+        (click)="onMakePowerColonyCiv()"
+      >
+        Power Colony
+      </button>
+      
+    </span>
+      
   </header>
   <div class="flex justify-center bg-slate-700">
     <section class="border-2 rounded border-white">
