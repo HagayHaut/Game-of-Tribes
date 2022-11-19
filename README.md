@@ -1,6 +1,31 @@
-# GoLAngular
+# Game of Tribes
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.6.
+
+## John Conway's 'Game of Life'
+
+Game of Tribes follows the rules of John Conway's [*Game of Life*](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life):
+
+* If a cell is dead
+    1. It comes alive it has 3 live neighbors, due to reproduction
+    1. Else, it remains dead
+* If a cell is alive
+    1. It stays alive if it has 2 or 3 live neighbors
+    1. It dies if it has 1 live neighbor, due to underpopulation
+    1. It dies if it has 4 or more live neighbors, due to overpopulation
+* Each cell (unless on the edge of the graph) has 8 neighbors, including diagonals
+
+## Game of Tribes Rules
+
+The above rules hold true in Game of Tribes. However, a live cell can belong to one of two tribes (yellow or blue).
+
+Additional rules are as follows:
+
+* A dead cell comes alive if it has 3 live neighbors with the tribe of the majority of its neighbors
+* A live cell dies if doesn't have exactly 2 or 3 live neighbors
+* A live cell remains the same tribe if it has two live neighbors of differing tribe
+* A live cell with two live neighbors of the same tribe will belong to that tribe regardless of its initial tribe
+* A live cell with three live neighbors will belong to the tribe of the majority of its neighbors
 
 ## Development server
 
