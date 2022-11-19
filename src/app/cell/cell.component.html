@@ -1,9 +1,9 @@
 <div
  class="w-4 h-4 border border-slate-900"
- [ngClass]="resolution ? 'h-' + resolution : ''"
  [ngClass]="{
-    'bg-black' : !isAlive, 
-    'bg-yellow-300': isAlive
+    'bg-black' : cellState < 1 || cellState > 2, 
+    'bg-yellow-300': cellState === 1,
+    'bg-blue-400': cellState === 2
 }"
  (click)="onCellClick()"
 >

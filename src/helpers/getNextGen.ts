@@ -1,10 +1,8 @@
-export const getNextGen = (
-  civilization: boolean[][]
-): [boolean, boolean[][]] => {
+export const getNextGen = (civilization: number[][]): [boolean, number[][]] => {
   const m: number = civilization.length;
   const n: number = civilization[0].length;
   let changed: boolean = false;
-  const nextGen: boolean[][] = Array(m)
+  const nextGen: number[][] = Array(m)
     .fill([])
     .map(() => Array(n));
 
@@ -21,29 +19,49 @@ export const getNextGen = (
     [1, -1],
   ];
 
-  const getLiveNeighbors = (r: number, c: number): number => {
-    let liveNeighbors = 0;
+  const getLiveNeighbors = (r: number, c: number): number[] => {
+    let liveNeighbors: number[] = [];
     directions.forEach(([dr, dc]) => {
       const [row, col] = [r + dr, c + dc];
       if (isIB(row, col) && civilization[row][col]) {
-        liveNeighbors++;
+        liveNeighbors.push(civilization[row][col]);
       }
     });
     return liveNeighbors;
   };
 
-  const nextCell = (r: number, c: number): boolean => {
-    const liveNeighbors = getLiveNeighbors(r, c);
+  const getMajorityNeighbor = (neighbors: number[]): number => {
+    return neighbors.reduce(
+      (a, b, i, arr) =>
+        arr.filter((n) => n === a).length >= arr.filter((n) => n === b).length
+          ? a
+          : b,
+      0
+    );
+  };
 
-    const nextCellGen = civilization[r][c]
-      ? liveNeighbors > 1 && liveNeighbors < 4
-      : liveNeighbors === 3;
+  const nextCell = (r: number, c: number): number => {
+    const liveNeighbors: number[] = getLiveNeighbors(r, c);
 
-    if (nextCellGen !== civilization[r][c]) {
-      changed = true;
+    const nextCellIsAlive = civilization[r][c]
+      ? liveNeighbors.length > 1 && liveNeighbors.length < 4
+      : liveNeighbors.length === 3;
+
+    let nextCellGen: number;
+
+    if (nextCellIsAlive) {
+      if (liveNeighbors.length === 2) {
+        nextCellGen =
+          liveNeighbors[0] === liveNeighbors[1]
+            ? liveNeighbors[0]
+            : civilization[r][c];
+      } else {
+        nextCellGen = getMajorityNeighbor(liveNeighbors);
+      }
+      return nextCellGen;
     }
 
-    return nextCellGen;
+    return 0;
   };
 
   for (let r = 0; r < m; r++) {

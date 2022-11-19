@@ -1,5 +1,14 @@
 <div>
   <header class="w-full flex p-2 justify-around bg-slate-400">
+    <span 
+      class="p-2 rounded-md text-black"
+      [ngClass]="{
+        'bg-yellow-400': yellowsTurn,
+        'bg-blue-500': !yellowsTurn
+      }"
+    >
+      {{ yellowsTurn ? "Yellow" : 'Blue' }}'s Turn
+    </span>
     <button 
       class="p-2 rounded-md text-white bg-red-600" 
       (click)="onNaturalDisaster()"
@@ -55,8 +64,8 @@
         class="flex"
       >
         <app-cell 
-          *ngFor="let isAlive of row; let c = index"
-          [isAlive] = 'isAlive'
+          *ngFor="let cellState of row; let c = index"
+          [cellState] = 'cellState'
           [resolution]= "resolution"
           [coordinates]="[r, c]"
           (cellClicked)="onChildCellClick($event)"

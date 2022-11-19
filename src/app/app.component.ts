@@ -19,10 +19,12 @@ export class AppComponent {
   civ = getInitialCiv(this.width, this.height);
   running = false;
   startInterval: any;
+  yellowsTurn = true;
 
   onChildCellClick(eventData: { coors: number[] }): void {
     const [r, c] = eventData.coors;
-    this.civ[r][c] = !this.civ[r][c];
+    this.civ[r][c] = this.yellowsTurn ? 1 : 2;
+    this.yellowsTurn = !this.yellowsTurn;
   }
 
   onNextGenClick(): void {
@@ -31,11 +33,11 @@ export class AppComponent {
 
   onAllGenClick(): void {
     if (!this.running) {
+      this.running = true;
       this.startInterval = setInterval(() => {
         const [changed, nextGen] = getNextGen(this.civ);
         if (!changed) {
           this.stopInterval();
-          this.running = false;
         } else {
           this.civ = nextGen;
         }
@@ -43,7 +45,6 @@ export class AppComponent {
     } else {
       this.stopInterval();
     }
-    this.running = !this.running;
   }
 
   onMakeBoatsClick() {
@@ -59,6 +60,7 @@ export class AppComponent {
   }
 
   stopInterval(): void {
+    this.running = false;
     clearInterval(this.startInterval);
   }
 

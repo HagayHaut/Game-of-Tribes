@@ -1,5 +1,5 @@
-export const getInitialCiv = (W: number, H: number): boolean[][] => {
+export const getInitialCiv = (W: number, H: number): number[][] => {
   return Array(H)
     .fill([])
-    .map(() => Array(W).fill(false));
+    .map(() => Array(W).fill(0));
 };

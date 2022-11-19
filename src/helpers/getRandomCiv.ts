@@ -1,9 +1,9 @@
-export const getRandomCiv = (W: number, H: number): boolean[][] => {
+export const getRandomCiv = (W: number, H: number): number[][] => {
   return Array(H)
     .fill([])
     .map(() =>
       Array(W)
-        .fill(false)
-        .map(() => !Math.floor(Math.random() * 4))
+        .fill(0)
+        .map(() => Math.floor(Math.random() * 8))
     );
 };
