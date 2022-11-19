@@ -25,8 +25,8 @@ Additional rules are as follows:
 
 * A dead cell comes alive if it has 3 live neighbors with the tribe of the majority of its neighbors
 * A live cell dies if doesn't have exactly 2 or 3 live neighbors
-* A live cell remains the same tribe if it has two live neighbors of differing tribe
-* A live cell with two live neighbors of the same tribe will belong to that tribe regardless of its initial tribe
+* A live cell remains the same tribe if it has two live neighbors of differing tribes
+* A live cell with two live neighbors of the same tribe will belong to that tribe regardless of its current tribe
 * A live cell with three live neighbors will belong to the tribe of the majority of its neighbors
 
 ## Development server
