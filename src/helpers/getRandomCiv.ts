@@ -4,6 +4,9 @@ export const getRandomCiv = (W: number, H: number): number[][] => {
     .map(() =>
       Array(W)
         .fill(0)
-        .map(() => Math.floor(Math.random() * 8))
+        .map(() => {
+          const rand: number = Math.floor(Math.random() * 8);
+          return [1, 2].includes(rand) ? rand : 0;
+        })
     );
 };

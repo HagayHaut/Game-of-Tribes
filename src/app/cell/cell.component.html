@@ -1,7 +1,7 @@
 <div
  class="w-4 h-4 border border-slate-900"
  [ngClass]="{
-    'bg-black' : cellState < 1 || cellState > 2, 
+    'bg-black' : !cellState, 
     'bg-yellow-300': cellState === 1,
     'bg-blue-400': cellState === 2
 }"
