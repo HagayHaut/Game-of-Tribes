@@ -2,7 +2,7 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.6.
 
-![Game demo](./src/images/GoT_gif.gif)
+![Game demo](./src/images/GoT_gif2.gif)
 
 ## John Conway's 'Game of Life'
 
