@@ -42,26 +42,26 @@ export const getBoatCiv = (W: number, H: number): number[][] => {
   boatCiv[h2 - 1][w2 + 4] = 2;
 
   // top right
-  boatCiv[h3][w3] = 1;
-  boatCiv[h3 + 1][w3] = 1;
-  boatCiv[h3 + 2][w3] = 1;
-  boatCiv[h3 - 1][w3 - 1] = 1;
-  boatCiv[h3 + 2][w3 - 1] = 1;
-  boatCiv[h3 + 2][w3 - 2] = 1;
-  boatCiv[h3 + 2][w3 - 3] = 1;
-  boatCiv[h3 + 1][w3 - 4] = 1;
-  boatCiv[h3 - 1][w3 - 4] = 1;
+  boatCiv[h3][w3] = 2;
+  boatCiv[h3 + 1][w3] = 2;
+  boatCiv[h3 + 2][w3] = 2;
+  boatCiv[h3 - 1][w3 - 1] = 2;
+  boatCiv[h3 + 2][w3 - 1] = 2;
+  boatCiv[h3 + 2][w3 - 2] = 2;
+  boatCiv[h3 + 2][w3 - 3] = 2;
+  boatCiv[h3 + 1][w3 - 4] = 2;
+  boatCiv[h3 - 1][w3 - 4] = 2;
 
   // bottom right
-  boatCiv[h4][w4] = 2;
-  boatCiv[h4 - 1][w4] = 2;
-  boatCiv[h4 - 2][w4] = 2;
-  boatCiv[h4 + 1][w4 - 1] = 2;
-  boatCiv[h4 - 2][w4 - 1] = 2;
-  boatCiv[h4 - 2][w4 - 2] = 2;
-  boatCiv[h4 - 2][w4 - 3] = 2;
-  boatCiv[h4 + 1][w4 - 4] = 2;
-  boatCiv[h4 - 1][w4 - 4] = 2;
+  boatCiv[h4][w4] = 1;
+  boatCiv[h4 - 1][w4] = 1;
+  boatCiv[h4 - 2][w4] = 1;
+  boatCiv[h4 + 1][w4 - 1] = 1;
+  boatCiv[h4 - 2][w4 - 1] = 1;
+  boatCiv[h4 - 2][w4 - 2] = 1;
+  boatCiv[h4 - 2][w4 - 3] = 1;
+  boatCiv[h4 + 1][w4 - 4] = 1;
+  boatCiv[h4 - 1][w4 - 4] = 1;
 
   return boatCiv;
 };
