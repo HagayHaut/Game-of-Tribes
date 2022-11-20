@@ -69,6 +69,7 @@ export class AppComponent {
   }
 
   onNaturalDisaster(): void {
+    if (this.running) this.stopInterval();
     this.civ = getInitialCiv(this.width, this.height);
   }
 }
