@@ -67,7 +67,7 @@ export const getNextGen = (civilization: number[][]): [boolean, number[][]] => {
   for (let r = 0; r < m; r++) {
     for (let c = 0; c < n; c++) {
       const nextCellGen = nextCell(r, c);
-      if (nextCellGen !== civilization[r][c]) changed = true;
+      if (nextCellGen !== civilization[r][c] && !changed) changed = true;
       nextGen[r][c] = nextCellGen;
     }
   }
