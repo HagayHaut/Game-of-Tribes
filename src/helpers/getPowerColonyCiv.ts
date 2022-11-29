@@ -11,11 +11,11 @@ export const getPowerColonyCiv = (W: number, H: number): number[][] => {
   const midH = ~~(H / 2);
 
   powerColony[midH][midW] = 1;
-  powerColony[midH - 1][midW - 2] = 1;
+  powerColony[midH - 1][midW - 2] = 2;
   powerColony[midH + 1][midW - 2] = 1;
-  powerColony[midH + 1][midW - 3] = 1;
+  powerColony[midH + 1][midW - 3] = 2;
   powerColony[midH + 1][midW + 1] = 1;
-  powerColony[midH + 1][midW + 2] = 1;
+  powerColony[midH + 1][midW + 2] = 2;
   powerColony[midH + 1][midW + 3] = 1;
 
   return powerColony;
