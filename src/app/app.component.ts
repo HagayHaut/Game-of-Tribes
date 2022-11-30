@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { getNextGen } from '../helpers/getNextGen';
 import { getInitialCiv } from '../helpers/getInitialCiv';
 import { getRandomCiv } from '../helpers/getRandomCiv';
@@ -20,8 +20,6 @@ export class AppComponent implements OnInit {
   running = false;
   startInterval: any;
   yellowsTurn = true;
-
-  constructor(self: ElementRef) {}
 
   ngOnInit(): void {
     let [wWidth, wHeight] = [window.innerWidth, window.innerHeight - 100];
