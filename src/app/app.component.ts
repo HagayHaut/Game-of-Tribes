@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { getNextGen } from '../helpers/getNextGen';
 import { getInitialCiv } from '../helpers/getInitialCiv';
 import { getRandomCiv } from '../helpers/getRandomCiv';
@@ -11,15 +11,24 @@ import { getBoatCiv } from '../helpers/getBoatCiv';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'GoL-angular';
-  width = 75;
-  height = 34;
+  width = 0;
+  height = 0;
   resolution = 4;
-  civ = getInitialCiv(this.width, this.height);
+  civ = [[1, 1]];
   running = false;
   startInterval: any;
   yellowsTurn = true;
+
+  constructor(self: ElementRef) {}
+
+  ngOnInit(): void {
+    let [wWidth, wHeight] = [window.innerWidth, window.innerHeight - 100];
+    this.width = ~~(wWidth / 17);
+    this.height = ~~(wHeight / 16);
+    this.civ = getInitialCiv(this.width, this.height);
+  }
 
   onChildCellClick(eventData: { coors: number[] }): void {
     const [r, c] = eventData.coors;
@@ -47,7 +56,7 @@ export class AppComponent {
     }
   }
 
-  onMakeBoatsClick() {
+  onMakeBoatsClick(): void {
     this.civ = getBoatCiv(this.width, this.height);
   }
 
