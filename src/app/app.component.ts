@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   yellowsTurn = true;
 
   ngOnInit(): void {
-    let [wWidth, wHeight] = [window.innerWidth, window.innerHeight - 100];
+    const [wWidth, wHeight] = [window.innerWidth, window.innerHeight - 100];
     this.width = ~~(wWidth / 17);
     this.height = ~~(wHeight / 16);
     this.civ = getInitialCiv(this.width, this.height);

@@ -1,23 +1,59 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppComponent } from '../app.component';
 
 import { CellComponent } from './cell.component';
 
-describe('CellComponent', () => {
-  let component: CellComponent;
+fdescribe('CellComponent', () => {
+  let cellComponent: CellComponent;
+
   let fixture: ComponentFixture<CellComponent>;
+  let cell: HTMLDivElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CellComponent ]
-    })
-    .compileComponents();
+      declarations: [CellComponent],
+    }).compileComponents();
+
+    const getRandomIndex = (maxValue: number): number => {
+      return ~~(Math.random() * maxValue);
+    };
 
     fixture = TestBed.createComponent(CellComponent);
-    component = fixture.componentInstance;
+    cellComponent = fixture.componentInstance;
+    cell = fixture.debugElement.nativeElement.querySelector('div');
+
+    console.log(cellComponent.coordinates);
+    // cellComponent.coordinates = [getRandomIndex(height), getRandomIndex(width)];
+
     fixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(cellComponent).toBeTruthy();
+  });
+
+  describe('onCellClick():', () => {
+    it('should be invoked when the cell is clicked', () => {
+      // Arrange
+      spyOn(cellComponent, 'onCellClick');
+
+      // Act
+      cell.click();
+
+      // Assert
+      expect(cellComponent.onCellClick).toHaveBeenCalled();
+    });
+
+    it('should emit its coordinates when clicked', () => {
+      // Arrange
+      spyOn(cellComponent.cellClicked, 'emit');
+      // Act
+
+      cell.dispatchEvent(new Event('click'));
+      fixture.detectChanges();
+
+      // Assert
+      expect(cellComponent.cellClicked.emit).toHaveBeenCalled();
+    });
   });
 });
