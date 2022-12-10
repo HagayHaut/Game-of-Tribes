@@ -126,4 +126,47 @@ describe('CivilizationService', () => {
       expect(randomBoatCiv[h4][w4]).toEqual(1);
     });
   });
+
+  describe('getGliderCiv(): ', () => {
+    let gliderCiv: number[][];
+
+    beforeEach(() => {
+      gliderCiv = civService.getGliderCiv();
+    });
+
+    it('should return a 2-D array with initial width and height', () => {
+      expect(gliderCiv[0].length).toEqual(width);
+      expect(gliderCiv.length).toEqual(height);
+    });
+
+    it('should contain 20 live cells (4 per glider)', () => {
+      let liveCellCount = 0;
+      gliderCiv.forEach((row) => {
+        row.forEach((cell) => cell && liveCellCount++);
+      });
+      expect(liveCellCount).toEqual(20);
+    });
+
+    it('should place the gliders in the corners, regardless of screen size', () => {
+      const randomFromRange = (min: number, max: number): number => {
+        return ~~(Math.random() * (max - min) + min);
+      };
+      const randomWidth = randomFromRange(50, 100);
+      const randomHeight = randomFromRange(40, 80);
+      const randomSizeCivService = new CivilizationService(
+        randomWidth,
+        randomHeight
+      );
+      const randomGliderCiv = randomSizeCivService.getGliderCiv();
+
+      // top left
+      expect(randomGliderCiv[0][1]).toEqual(1);
+      // bottom left
+      expect(randomGliderCiv[randomHeight - 2][0]).toEqual(2);
+      // top right
+      expect(randomGliderCiv[0][randomWidth - 3]).toEqual(2);
+      // bottom right
+      expect(randomGliderCiv[randomHeight - 3][randomWidth - 3]).toEqual(1);
+    });
+  });
 });
