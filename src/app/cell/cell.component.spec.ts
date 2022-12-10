@@ -20,8 +20,6 @@ describe('CellComponent', () => {
     fixture = TestBed.createComponent(CellComponent);
     cellComponent = fixture.componentInstance;
     cell = fixture.debugElement.nativeElement.querySelector('div');
-
-    console.log(cellComponent.coordinates);
     // cellComponent.coordinates = [getRandomIndex(height), getRandomIndex(width)];
 
     fixture.detectChanges();

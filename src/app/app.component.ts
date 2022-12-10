@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CivilizationService } from 'src/services/civilization.service';
+import { CivilizationService } from 'src/app/services/civilization.service';
 
 @Component({
   selector: 'app-root',
