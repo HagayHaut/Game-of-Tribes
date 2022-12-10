@@ -64,7 +64,6 @@ describe('CivilizationService', () => {
 
     it('should give each cell an equal chance of being any of the 3 cellStates', () => {
       const cellStates: Set<number> = new Set([0, 1, 2]);
-      console.log(cellStates);
       const randomCol = Math.floor(Math.random() * width);
       const randomRow = Math.floor(Math.random() * height);
       let iterationCount = 0;
@@ -73,10 +72,8 @@ describe('CivilizationService', () => {
         iterationCount++;
         const newRandomCiv = civService.getRandomCiv();
         const cellValue = newRandomCiv[randomRow][randomCol];
-
         cellStates.delete(cellValue);
       }
-      console.log(iterationCount);
       expect(iterationCount).toBeLessThan(100);
     });
   });
