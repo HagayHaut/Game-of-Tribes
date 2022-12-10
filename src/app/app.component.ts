@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { getNextGen } from '../helpers/getNextGen';
-import { getInitialCiv } from '../helpers/getInitialCiv';
-import { getRandomCiv } from '../helpers/getRandomCiv';
-import { getGliderCiv } from '../helpers/getGliderCiv';
-import { getPowerColonyCiv } from '../helpers/getPowerColonyCiv';
-import { getBoatCiv } from '../helpers/getBoatCiv';
+import { CivilizationService } from 'src/services/civilization.service';
 
 @Component({
   selector: 'app-root',
@@ -21,11 +16,19 @@ export class AppComponent implements OnInit {
   startInterval: any;
   yellowsTurn = true;
 
+  _civService: CivilizationService;
+
+  constructor() {
+    this._civService = new CivilizationService(40, 30);
+  }
+
   ngOnInit(): void {
     const [wWidth, wHeight] = [window.innerWidth, window.innerHeight - 100];
     this.width = ~~(wWidth / 17);
     this.height = ~~(wHeight / 16);
-    this.civ = getInitialCiv(this.width, this.height);
+    this._civService.width = this.width;
+    this._civService.height = this.height;
+    this.civ = this._civService.getInitialCiv();
   }
 
   onChildCellClick(eventData: { coors: number[] }): void {
@@ -35,14 +38,14 @@ export class AppComponent implements OnInit {
   }
 
   onNextGenClick(): void {
-    this.civ = getNextGen(this.civ)[1];
+    this.civ = this._civService.getNextGen(this.civ)[1];
   }
 
   onAllGenClick(): void {
     if (!this.running) {
       this.running = true;
       this.startInterval = setInterval(() => {
-        const [changed, nextGen] = getNextGen(this.civ);
+        const [changed, nextGen] = this._civService.getNextGen(this.civ);
         if (!changed) {
           this.stopInterval();
         } else {
@@ -55,15 +58,15 @@ export class AppComponent implements OnInit {
   }
 
   onMakeBoatsClick(): void {
-    this.civ = getBoatCiv(this.width, this.height);
+    this.civ = this._civService.getBoatCiv();
   }
 
   onMakeGlidersClick(): void {
-    this.civ = getGliderCiv(this.width, this.height);
+    this.civ = this._civService.getGliderCiv();
   }
 
   onMakePowerColonyCiv(): void {
-    this.civ = getPowerColonyCiv(this.width, this.height);
+    this.civ = this._civService.getPowerColonyCiv();
   }
 
   stopInterval(): void {
@@ -72,11 +75,11 @@ export class AppComponent implements OnInit {
   }
 
   onRandomCivClick(): void {
-    this.civ = getRandomCiv(this.width, this.height);
+    this.civ = this._civService.getRandomCiv();
   }
 
   onNaturalDisaster(): void {
     if (this.running) this.stopInterval();
-    this.civ = getInitialCiv(this.width, this.height);
+    this.civ = this._civService.getInitialCiv();
   }
 }

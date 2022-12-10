@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppComponent } from '../app.component';
 
 import { CellComponent } from './cell.component';
 
-fdescribe('CellComponent', () => {
+describe('CellComponent', () => {
   let cellComponent: CellComponent;
 
   let fixture: ComponentFixture<CellComponent>;
