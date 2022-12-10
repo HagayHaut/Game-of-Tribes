@@ -2,6 +2,7 @@ export const getNextGen = (civilization: number[][]): [boolean, number[][]] => {
   const m: number = civilization.length;
   const n: number = civilization[0].length;
   let changed: boolean = false;
+
   const nextGen: number[][] = Array(m)
     .fill([])
     .map(() => Array(n));
@@ -30,14 +31,9 @@ export const getNextGen = (civilization: number[][]): [boolean, number[][]] => {
     return liveNeighbors;
   };
 
-  const getMajorityNeighbor = (neighbors: number[]): number => {
-    return neighbors.reduce(
-      (a, b, i, arr) =>
-        arr.filter((n) => n === a).length >= arr.filter((n) => n === b).length
-          ? a
-          : b,
-      0
-    );
+  const getMajorityNeighbor = ([a, b, c]: number[]): number => {
+    if (a === b || a === c) return a;
+    return b;
   };
 
   const nextCell = (r: number, c: number): number => {
