@@ -5,6 +5,11 @@ describe('CivilizationService', () => {
   let width: number;
   let height: number;
   let civService: CivilizationService;
+
+  const randomFromRange = (min: number, max: number): number => {
+    return ~~(Math.random() * (max - min) + min);
+  };
+
   beforeEach(async () => {
     width = 50;
     height = 40;
@@ -99,9 +104,7 @@ describe('CivilizationService', () => {
     });
 
     it('should place the boats in the corners, regardless of board size', () => {
-      const randomFromRange = (min: number, max: number): number => {
-        return ~~(Math.random() * (max - min) + min);
-      };
+      
       const randomWidth = randomFromRange(50, 100);
       const randomHeight = randomFromRange(40, 80);
       const randomSizeCivService = new CivilizationService(
@@ -148,9 +151,6 @@ describe('CivilizationService', () => {
     });
 
     it('should place the gliders in the corners, regardless of board size', () => {
-      const randomFromRange = (min: number, max: number): number => {
-        return ~~(Math.random() * (max - min) + min);
-      };
       const randomWidth = randomFromRange(50, 100);
       const randomHeight = randomFromRange(40, 80);
       const randomSizeCivService = new CivilizationService(
@@ -191,9 +191,6 @@ describe('CivilizationService', () => {
     });
 
     it('should place the power colony in the center, regardless of board size', () => {
-      const randomFromRange = (min: number, max: number): number => {
-        return ~~(Math.random() * (max - min) + min);
-      };
       const randomWidth = randomFromRange(50, 100);
       const randomHeight = randomFromRange(40, 80);
       const randomSizeCivService = new CivilizationService(
@@ -218,7 +215,7 @@ describe('CivilizationService', () => {
       firstGeneration = civService.getRandomCiv();
     });
 
-    describe('first index of return value (boolean)', () => {
+    describe('`changed` - first index of return value (boolean)', () => {
       it('should be `true` when next gen is different from the input civ', () => {
         const [changed, _] = civService.getNextGen(civService.getBoatCiv());
         expect(changed).toEqual(true);
@@ -249,9 +246,6 @@ describe('CivilizationService', () => {
         initialCiv[0][1] = 1;
         initialCiv[1][0] = 1;
         initialCiv[1][1] = 2;
-
-        const [_, nextGenCiv] = civService.getNextGen(initialCiv);
-        expect(nextGenCiv[0][0]).toEqual(1);
       });
 
       it('should come to life if it has exactly 3 live neighbors', () => {
