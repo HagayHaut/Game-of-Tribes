@@ -35,7 +35,7 @@ describe('AppComponent', () => {
   })
 
   describe('onNextGenClick()', () => {
-    let nextGenBtn: any;
+    let nextGenBtn: HTMLButtonElement;
 
     beforeEach(() => {
       nextGenBtn = fixture.nativeElement.querySelector('#nextGen');
