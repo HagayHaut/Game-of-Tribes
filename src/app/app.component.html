@@ -22,6 +22,7 @@
       {{ running ? 'Stop' : 'Play' }} Generations
     </button>
     <button 
+      id="nextGen"
       class="p-2 rounded-md text-white bg-blue-500" 
       (click)="onNextGenClick()"
       >
@@ -65,6 +66,7 @@
       >
         <app-cell 
           *ngFor="let cellState of row; let c = index"
+          [id]="'cell' + r + '-' + c"
           [cellState] = 'cellState'
           [resolution]= "resolution"
           [coordinates]="[r, c]"
