@@ -124,16 +124,14 @@ describe('AppComponent', () => {
     });
 
     it('should be invoked when the `click` event is dispatched from he make gliders button', () => {
-      {
-        // Arrange
-        spyOn(app, 'onMakeGlidersClick');
+      // Arrange
+      spyOn(app, 'onMakeGlidersClick');
 
-        // Act
-        makeGlidersBtn.click();
+      // Act
+      makeGlidersBtn.click();
 
-        // Assert
-        expect(app.onMakeGlidersClick).toHaveBeenCalled();
-      }
+      // Assert
+      expect(app.onMakeGlidersClick).toHaveBeenCalled();
     });
 
     it('should update the `civ` in the property', () => {
@@ -188,16 +186,14 @@ describe('AppComponent', () => {
     });
 
     it('should be invoked when the `click` event is dispatched from he make boats button', () => {
-      {
-        // Arrange
-        spyOn(app, 'onMakeBoatsClick');
+      // Arrange
+      spyOn(app, 'onMakeBoatsClick');
 
-        // Act
-        makeBoatsBtn.click();
+      // Act
+      makeBoatsBtn.click();
 
-        // Assert
-        expect(app.onMakeBoatsClick).toHaveBeenCalled();
-      }
+      // Assert
+      expect(app.onMakeBoatsClick).toHaveBeenCalled();
     });
 
     it('should update the `civ` in the property', () => {
@@ -221,17 +217,15 @@ describe('AppComponent', () => {
         fixture.nativeElement.querySelector('#makePowerColony');
     });
 
-    it('should be invoked when the `click` event is dispatched from he make gliders button', () => {
-      {
-        // Arrange
-        spyOn(app, 'onMakePowerColonyCiv');
+    it('should be invoked when the `click` event is dispatched from he make gliders button', () => { 
+      // Arrange
+      spyOn(app, 'onMakePowerColonyCiv');
 
-        // Act
-        makePowerColonyBtn.click();
+      // Act
+      makePowerColonyBtn.click();
 
-        // Assert
-        expect(app.onMakePowerColonyCiv).toHaveBeenCalled();
-      }
+      // Assert
+      expect(app.onMakePowerColonyCiv).toHaveBeenCalled();
     });
 
     it('should update the `civ` in the property', () => {
@@ -255,16 +249,14 @@ describe('AppComponent', () => {
     });
 
     it('should be invoked when the `click` event is dispatched from he make gliders button', () => {
-      {
-        // Arrange
-        spyOn(app, 'onRandomCivClick');
+      // Arrange
+      spyOn(app, 'onRandomCivClick');
 
-        // Act
-        randomCivBtn.click();
+      // Act
+      randomCivBtn.click();
 
-        // Assert
-        expect(app.onRandomCivClick).toHaveBeenCalled();
-      }
+      // Assert
+      expect(app.onRandomCivClick).toHaveBeenCalled();
     });
 
     it('should update the `civ` in the property', () => {
