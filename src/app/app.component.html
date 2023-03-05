@@ -10,6 +10,7 @@
       {{ yellowsTurn ? "Yellow" : 'Blue' }}'s Turn
     </span>
     <button 
+      id="naturalDisaster"
       class="p-2 rounded-md text-white bg-red-600" 
       (click)="onNaturalDisaster()"
     >
@@ -31,24 +32,28 @@
     <span class="flex bg-yellow-400">
       <p class="px-2 pt-3 pd-1 ml-1">Generate</p>
       <button 
+        id="randomCiv"
         class="p-2 m-1 rounded-md text-black bg-orange-400" 
         (click)="onRandomCivClick()"
       >
         Random Civ
       </button>
       <button 
+        id="makeBoats"
         class="p-2 m-1 rounded-md text-black bg-orange-400" 
         (click)="onMakeBoatsClick()"
       >
         Boats
       </button>
       <button 
+        id="makeGliders"
         class="p-2 m-1 rounded-md text-black bg-orange-400" 
         (click)="onMakeGlidersClick()"
       >
         Gliders
       </button>
       <button 
+        id="makePowerColony"
         class="p-2 m-1 rounded-md text-black bg-orange-400" 
         (click)="onMakePowerColonyCiv()"
       >
