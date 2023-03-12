@@ -7,12 +7,11 @@ import { Cell, Coordinates, Resolution } from '../models/app.states';
   styleUrls: ['./cell.component.css'],
 })
 export class CellComponent {
-  @Input() cellState: Cell = 0;
-  @Input() coordinates: Coordinates = [0, 0];
+  @Input() cellData: Cell = { coors: [0, 0], state: 0 };
   @Input() resolution: Resolution = 4;
   @Output() cellClicked = new EventEmitter<{ coors: Coordinates }>();
 
   onCellClick() {
-    this.cellClicked.emit({ coors: this.coordinates });
+    this.cellClicked.emit({ coors: this.cellData.coors });
   }
 }

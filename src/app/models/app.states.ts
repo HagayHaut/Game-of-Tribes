@@ -10,7 +10,7 @@ export type Coordinate = Range<0, 100>;
 
 export type Coordinates = [Coordinate, Coordinate];
 
-export type CellState =  0 | 1 | 2;
+export type CellState =  Range<0, 3>;
 
 export interface Cell {
   state: CellState;

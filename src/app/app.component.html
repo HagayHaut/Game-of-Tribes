@@ -70,11 +70,10 @@
         class="flex"
       >
         <app-cell 
-          *ngFor="let cellState of row; let c = index"
+          *ngFor="let cell of row; let c = index"
           [id]="'cell' + r + '-' + c"
-          [cellState] = 'cellState'
+          [cellData]="cell"
           [resolution]= "resolution"
-          [coordinates]="[r, c]"
           (cellClicked)="onChildCellClick($event)"
         >
         </app-cell>

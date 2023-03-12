@@ -1,4 +1,9 @@
-import { Cell, CellState, Civilization, Coordinate } from "../models/app.states";
+import {
+  Cell,
+  CellState,
+  Civilization,
+  Coordinate,
+} from '../models/app.states';
 
 export class CivilizationService {
   public width: Coordinate;
@@ -15,7 +20,7 @@ export class CivilizationService {
     for (let r = 0; r < height; r++) {
       const row: Cell[] = [];
       for (let c = 0; c < width; c++) {
-        row.push({ state: 0, coors: [r as Coordinate, c as Coordinate]})
+        row.push({ state: 0, coors: [r as Coordinate, c as Coordinate] });
       }
       civ.push(row);
     }
@@ -23,16 +28,15 @@ export class CivilizationService {
   }
 
   getRandomCiv({ width, height } = this): Civilization {
-
     const civ: Civilization = [];
 
     for (let r = 0; r < height; r++) {
       const row: Cell[] = [];
       for (let c = 0; c < width; c++) {
         const rand = Math.floor(Math.random() * 8);
-        row.push({ 
-          state: [1, 2].includes(rand) ? rand as CellState : 0, 
-          coors: [r as Coordinate, c as Coordinate]
+        row.push({
+          state: [1, 2].includes(rand) ? (rand as CellState) : 0,
+          coors: [r as Coordinate, c as Coordinate],
         });
       }
       civ.push(row);
@@ -153,16 +157,15 @@ export class CivilizationService {
     return powerColony;
   }
 
-  getNextGen(civilization: Civilization): [boolean, Civilization] {
-    const m = civilization.length;
-    const n = civilization[0].length;
+  getNextGen(prevGen: Civilization): [boolean, Civilization] {
+    const m = prevGen.length as Coordinate;
+    const n = prevGen[0].length as Coordinate;
     let changed: boolean = false;
 
-    const nextGen: Civilization = Array(m)
-      .fill([])
-      .map(() => Array(n));
-
-    const isIB = (r: number, c: number) => r >= 0 && c >= 0 && r < m && c < n;
+    const nextGen: Civilization = this.getInitialCiv({
+      width: n,
+      height: m,
+    } as this);
 
     const directions = [
       [1, 0],
@@ -175,54 +178,93 @@ export class CivilizationService {
       [1, -1],
     ];
 
-    const getLiveNeighbors = (r: number, c: number): Cell[] => {
-      let liveNeighbors: Cell[] = [];
-      directions.forEach(([dr, dc]) => {
-        const [row, col] = [r + dr, c + dc];
-        if (isIB(row, col) && civilization[row][col]) {
-          liveNeighbors.push(civilization[row][col]);
-        }
-      });
-      return liveNeighbors;
-    };
-
-    const getMajorityNeighbor = ([a, b, c]: Cell[]): Cell => {
-      if (a === b || a === c) return a;
-      return b;
-    };
-
-    const nextCell = (r: number, c: number): Cell => {
-      const liveNeighbors = getLiveNeighbors(r, c);
-
-      const nextCellIsAlive = civilization[r][c]
-        ? liveNeighbors.length > 1 && liveNeighbors.length < 4
-        : liveNeighbors.length === 3;
-
-      let nextCellGen: Cell;
-
-      if (nextCellIsAlive) {
-        if (liveNeighbors.length === 2) {
-          nextCellGen =
-            liveNeighbors[0] === liveNeighbors[1]
-              ? liveNeighbors[0]
-              : civilization[r][c];
-        } else {
-          nextCellGen = getMajorityNeighbor(liveNeighbors);
-        }
-        return nextCellGen;
-      }
-
-      return 0;
-    };
-
     for (let r = 0; r < m; r++) {
       for (let c = 0; c < n; c++) {
-        const nextCellGen = nextCell(r, c);
-        if (nextCellGen !== civilization[r][c] && !changed) changed = true;
+        const nextCellGen = this.getNextCellGen(
+          r as Coordinate,
+          c as Coordinate,
+          m,
+          n,
+          prevGen
+        );
+        if (nextCellGen !== prevGen[r][c] && !changed) changed = true;
         nextGen[r][c] = nextCellGen;
       }
     }
 
     return [changed, nextGen];
+  }
+
+  private getNextCellGen(
+    r: Coordinate,
+    c: Coordinate,
+    m: Coordinate,
+    n: Coordinate,
+    prevGen: Civilization
+  ): Cell {
+    const liveNeighborStates = this.getLiveNeighborStates(r, c, m, n, prevGen);
+
+    const nextCellGenIsAlive = prevGen[r][c].state
+      ? liveNeighborStates.length > 1 && liveNeighborStates.length < 4
+      : liveNeighborStates.length === 3;
+
+    let nextCellGen: Cell = {
+      coors: [r, c],
+      state: 0,
+    };
+
+    if (nextCellGenIsAlive) {
+      if (liveNeighborStates.length === 2) {
+        nextCellGen.state =
+          liveNeighborStates[0] === liveNeighborStates[1]
+            ? liveNeighborStates[0]
+            : prevGen[r][c].state;
+      } else {
+        nextCellGen.state = this.getMajorityNeighborState(liveNeighborStates);
+      }
+      return nextCellGen;
+    }
+
+    return nextCellGen;
+  }
+
+  private getMajorityNeighborState([a, b, c]: CellState[]): CellState {
+    if (a === b || a === c) return a;
+    return b;
+  }
+
+  private getLiveNeighborStates(
+    r: Coordinate,
+    c: Coordinate,
+    m: Coordinate,
+    n: Coordinate,
+    prevGen: Civilization
+  ): CellState[] {
+    let liveNeighborStates: CellState[] = [];
+    const isIB = (r: Coordinate, c: Coordinate) =>
+      r >= 0 && c >= 0 && r < m && c < n;
+
+    const directions = [
+      [1, 0],
+      [-1, 0],
+      [0, 1],
+      [0, -1],
+      [-1, -1],
+      [-1, 1],
+      [1, 1],
+      [1, -1],
+    ];
+
+    directions.forEach(([dr, dc]) => {
+      const [row, col] = [r + dr, c + dc];
+      if (
+        isIB(row as Coordinate, col as Coordinate) &&
+        prevGen[row][col].state
+      ) {
+        liveNeighborStates.push(prevGen[row][col].state);
+      }
+    });
+
+    return liveNeighborStates;
   }
 }
