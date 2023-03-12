@@ -1,3 +1,5 @@
+import { Cell, Civilization } from "../models/app.states";
+
 export class CivilizationService {
   public width: number;
   public height: number;
@@ -7,27 +9,27 @@ export class CivilizationService {
     this.height = height;
   }
 
-  getInitialCiv({ width, height } = this): number[][] {
+  getInitialCiv({ width, height } = this): Civilization {
     return Array(height)
       .fill([])
       .map((_) => Array(width).fill(0));
   }
 
-  getRandomCiv({ width, height } = this): number[][] {
+  getRandomCiv({ width, height } = this): Civilization {
     return Array(height)
       .fill([])
       .map(() =>
         Array(width)
           .fill(0)
           .map(() => {
-            const rand: number = Math.floor(Math.random() * 8);
+            const rand = Math.floor(Math.random() * 8);
             return [1, 2].includes(rand) ? rand : 0;
           })
-      );
+      ) as Civilization;
   }
 
-  getBoatCiv({ width, height } = this): number[][] {
-    const boatCiv = Array(height)
+  getBoatCiv({ width, height } = this): Civilization {
+    const boatCiv: Civilization = Array(height)
       .fill([])
       .map(() =>
         Array(width)
@@ -94,8 +96,8 @@ export class CivilizationService {
     return boatCiv;
   }
 
-  getGliderCiv({ width, height } = this): number[][] {
-    const gliderCiv = Array(height)
+  getGliderCiv({ width, height } = this): Civilization {
+    const gliderCiv: Civilization = Array(height)
       .fill([])
       .map(() =>
         Array(width)
@@ -134,8 +136,8 @@ export class CivilizationService {
     return gliderCiv;
   }
 
-  getPowerColonyCiv({ width, height } = this): number[][] {
-    const powerColony = Array(height)
+  getPowerColonyCiv({ width, height } = this): Civilization {
+    const powerColony: Civilization = Array(height)
       .fill([])
       .map(() =>
         Array(width)
@@ -157,12 +159,12 @@ export class CivilizationService {
     return powerColony;
   }
 
-  getNextGen(civilization: number[][]): [boolean, number[][]] {
-    const m: number = civilization.length;
-    const n: number = civilization[0].length;
+  getNextGen(civilization: Civilization): [boolean, Civilization] {
+    const m = civilization.length;
+    const n = civilization[0].length;
     let changed: boolean = false;
 
-    const nextGen: number[][] = Array(m)
+    const nextGen: Civilization = Array(m)
       .fill([])
       .map(() => Array(n));
 
@@ -179,8 +181,8 @@ export class CivilizationService {
       [1, -1],
     ];
 
-    const getLiveNeighbors = (r: number, c: number): number[] => {
-      let liveNeighbors: number[] = [];
+    const getLiveNeighbors = (r: number, c: number): Cell[] => {
+      let liveNeighbors: Cell[] = [];
       directions.forEach(([dr, dc]) => {
         const [row, col] = [r + dr, c + dc];
         if (isIB(row, col) && civilization[row][col]) {
@@ -190,19 +192,19 @@ export class CivilizationService {
       return liveNeighbors;
     };
 
-    const getMajorityNeighbor = ([a, b, c]: number[]): number => {
+    const getMajorityNeighbor = ([a, b, c]: Cell[]): Cell => {
       if (a === b || a === c) return a;
       return b;
     };
 
-    const nextCell = (r: number, c: number): number => {
-      const liveNeighbors: number[] = getLiveNeighbors(r, c);
+    const nextCell = (r: number, c: number): Cell => {
+      const liveNeighbors = getLiveNeighbors(r, c);
 
       const nextCellIsAlive = civilization[r][c]
         ? liveNeighbors.length > 1 && liveNeighbors.length < 4
         : liveNeighbors.length === 3;
 
-      let nextCellGen: number;
+      let nextCellGen: Cell;
 
       if (nextCellIsAlive) {
         if (liveNeighbors.length === 2) {

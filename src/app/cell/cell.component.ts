@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Cell, Coordinates, Resolution } from '../models/app.states';
 
 @Component({
   selector: 'app-cell',
@@ -6,10 +7,10 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./cell.component.css'],
 })
 export class CellComponent {
-  @Input() cellState: number = 0;
-  @Input() coordinates: number[] = [];
-  @Input() resolution: number = 0;
-  @Output() cellClicked = new EventEmitter<{ coors: number[] }>();
+  @Input() cellState: Cell = 0;
+  @Input() coordinates: Coordinates = [0, 0];
+  @Input() resolution: Resolution = 4;
+  @Output() cellClicked = new EventEmitter<{ coors: Coordinates }>();
 
   onCellClick() {
     this.cellClicked.emit({ coors: this.coordinates });
