@@ -1,176 +1,23 @@
-import { Cell, Civilization } from "../models/app.states";
+import { map } from 'rxjs';
+import {
+  Cell,
+  CellState,
+  Civilization,
+  Coordinate,
+} from '../models/app.types';
+
+type Increment = -1 | 0 | 1;
 
 export class CivilizationService {
-  public width: number;
-  public height: number;
+  public width: Coordinate;
+  public height: Coordinate;
 
-  constructor(width: number, height: number) {
+  private _directions: [Increment, Increment][];
+
+  constructor(width: Coordinate, height: Coordinate) {
     this.width = width;
     this.height = height;
-  }
-
-  getInitialCiv({ width, height } = this): Civilization {
-    return Array(height)
-      .fill([])
-      .map((_) => Array(width).fill(0));
-  }
-
-  getRandomCiv({ width, height } = this): Civilization {
-    return Array(height)
-      .fill([])
-      .map(() =>
-        Array(width)
-          .fill(0)
-          .map(() => {
-            const rand = Math.floor(Math.random() * 8);
-            return [1, 2].includes(rand) ? rand : 0;
-          })
-      ) as Civilization;
-  }
-
-  getBoatCiv({ width, height } = this): Civilization {
-    const boatCiv: Civilization = Array(height)
-      .fill([])
-      .map(() =>
-        Array(width)
-          .fill(0)
-          .map(() => 0)
-      );
-
-    // make anchors
-
-    // top-left -> h1, w1
-    // bottom-left -> h2, w2
-    // top-right -> h3, w3
-    // bottom-right -> h4, w4
-
-    const [h1, w1] = [5, 5];
-    const [h2, w2] = [height - 6, 5];
-    const [h3, w3] = [5, width - 6];
-    const [h4, w4] = [height - 6, width - 6];
-
-    // top left
-    boatCiv[h1][w1] = 1;
-    boatCiv[h1 + 1][w1] = 1;
-    boatCiv[h1 + 2][w1] = 1;
-    boatCiv[h1 - 1][w1 + 1] = 1;
-    boatCiv[h1 + 2][w1 + 1] = 1;
-    boatCiv[h1 + 2][w1 + 2] = 1;
-    boatCiv[h1 + 2][w1 + 3] = 1;
-    boatCiv[h1 + 1][w1 + 4] = 1;
-    boatCiv[h1 - 1][w1 + 4] = 1;
-
-    // bottom left
-    boatCiv[h2][w2] = 2;
-    boatCiv[h2 - 1][w2] = 2;
-    boatCiv[h2 - 2][w2] = 2;
-    boatCiv[h2 + 1][w2 + 1] = 2;
-    boatCiv[h2 - 2][w2 + 1] = 2;
-    boatCiv[h2 - 2][w2 + 2] = 2;
-    boatCiv[h2 - 2][w2 + 3] = 2;
-    boatCiv[h2 + 1][w2 + 4] = 2;
-    boatCiv[h2 - 1][w2 + 4] = 2;
-
-    // top right
-    boatCiv[h3][w3] = 2;
-    boatCiv[h3 + 1][w3] = 2;
-    boatCiv[h3 + 2][w3] = 2;
-    boatCiv[h3 - 1][w3 - 1] = 2;
-    boatCiv[h3 + 2][w3 - 1] = 2;
-    boatCiv[h3 + 2][w3 - 2] = 2;
-    boatCiv[h3 + 2][w3 - 3] = 2;
-    boatCiv[h3 + 1][w3 - 4] = 2;
-    boatCiv[h3 - 1][w3 - 4] = 2;
-
-    // bottom right
-    boatCiv[h4][w4] = 1;
-    boatCiv[h4 - 1][w4] = 1;
-    boatCiv[h4 - 2][w4] = 1;
-    boatCiv[h4 + 1][w4 - 1] = 1;
-    boatCiv[h4 - 2][w4 - 1] = 1;
-    boatCiv[h4 - 2][w4 - 2] = 1;
-    boatCiv[h4 - 2][w4 - 3] = 1;
-    boatCiv[h4 + 1][w4 - 4] = 1;
-    boatCiv[h4 - 1][w4 - 4] = 1;
-
-    return boatCiv;
-  }
-
-  getGliderCiv({ width, height } = this): Civilization {
-    const gliderCiv: Civilization = Array(height)
-      .fill([])
-      .map(() =>
-        Array(width)
-          .fill(0)
-          .map(() => 0)
-      );
-
-    // top left
-    gliderCiv[0][1] = 1;
-    gliderCiv[1][2] = 1;
-    gliderCiv[2][0] = 1;
-    gliderCiv[2][1] = 1;
-    gliderCiv[2][2] = 1;
-
-    // bottom left
-    gliderCiv[height - 2][0] = 2;
-    gliderCiv[height - 3][1] = 2;
-    gliderCiv[height - 3][2] = 2;
-    gliderCiv[height - 2][2] = 2;
-    gliderCiv[height - 1][2] = 2;
-
-    // top right
-    gliderCiv[0][width - 3] = 2;
-    gliderCiv[1][width - 3] = 2;
-    gliderCiv[2][width - 3] = 2;
-    gliderCiv[2][width - 2] = 2;
-    gliderCiv[1][width - 1] = 2;
-
-    // bottom right
-    gliderCiv[height - 3][width - 3] = 1;
-    gliderCiv[height - 3][width - 2] = 1;
-    gliderCiv[height - 3][width - 1] = 1;
-    gliderCiv[height - 2][width - 3] = 1;
-    gliderCiv[height - 1][width - 2] = 1;
-
-    return gliderCiv;
-  }
-
-  getPowerColonyCiv({ width, height } = this): Civilization {
-    const powerColony: Civilization = Array(height)
-      .fill([])
-      .map(() =>
-        Array(width)
-          .fill(0)
-          .map(() => 0)
-      );
-
-    const midW = ~~(width / 2);
-    const midH = ~~(height / 2);
-
-    powerColony[midH][midW] = 1;
-    powerColony[midH - 1][midW - 2] = 2;
-    powerColony[midH + 1][midW - 2] = 1;
-    powerColony[midH + 1][midW - 3] = 2;
-    powerColony[midH + 1][midW + 1] = 1;
-    powerColony[midH + 1][midW + 2] = 2;
-    powerColony[midH + 1][midW + 3] = 1;
-
-    return powerColony;
-  }
-
-  getNextGen(civilization: Civilization): [boolean, Civilization] {
-    const m = civilization.length;
-    const n = civilization[0].length;
-    let changed: boolean = false;
-
-    const nextGen: Civilization = Array(m)
-      .fill([])
-      .map(() => Array(n));
-
-    const isIB = (r: number, c: number) => r >= 0 && c >= 0 && r < m && c < n;
-
-    const directions = [
+    this._directions = [ // includes diagonal
       [1, 0],
       [-1, 0],
       [0, 1],
@@ -180,55 +27,264 @@ export class CivilizationService {
       [1, 1],
       [1, -1],
     ];
+  }
 
-    const getLiveNeighbors = (r: number, c: number): Cell[] => {
-      let liveNeighbors: Cell[] = [];
-      directions.forEach(([dr, dc]) => {
-        const [row, col] = [r + dr, c + dc];
-        if (isIB(row, col) && civilization[row][col]) {
-          liveNeighbors.push(civilization[row][col]);
-        }
+  getInitialCiv(): Civilization {
+    
+    return Array(this.height)
+    .fill([])
+    .map((_, r) => {
+      return Array(this.width)
+      .fill({})
+      .map((_, c) => {
+        return <Cell>{
+          state: 0,
+          coors: [r, c],
+        };
       });
-      return liveNeighbors;
-    };
+    });
+    
+    
+    // const civ: Civilization = [];
+    // for (let r = 0; r < height; r++) {
+    //   const row: Cell[] = [];
+    //   for (let c = 0; c < width; c++) {
+    //     row.push({ state: 0, coors: [r as Coordinate, c as Coordinate] });
+    //   }
+    //   civ.push(row);
+    // }
+    // return civ;
+  }
 
-    const getMajorityNeighbor = ([a, b, c]: Cell[]): Cell => {
-      if (a === b || a === c) return a;
-      return b;
-    };
+  getRandomCiv({ width, height } = this): Civilization {
+    
+    return Array(height)
+    .fill([])
+    .map((_, r) => {
+      return Array(width)
+      .fill({})
+      .map((_, c) => {
+        const rand = Math.floor(Math.random() * 8);
+        return <Cell>{
+          state: [1, 2].includes(rand) ? rand : 0,
+          coors: [r, c],
+        };
+      });
+    });
 
-    const nextCell = (r: number, c: number): Cell => {
-      const liveNeighbors = getLiveNeighbors(r, c);
+    // const civ: Civilization = [];
+    // for (let r = 0; r < height; r++) {
+    //   const row: Cell[] = [];
+    //   for (let c = 0; c < width; c++) {
+    //     const rand = Math.floor(Math.random() * 8);
+    //     row.push({
+    //       state: [1, 2].includes(rand) ? (rand as CellState) : 0,
+    //       coors: [r as Coordinate, c as Coordinate],
+    //     });
+    //   }
+    //   civ.push(row);
+    // }
+    // return civ;
+  }
 
-      const nextCellIsAlive = civilization[r][c]
-        ? liveNeighbors.length > 1 && liveNeighbors.length < 4
-        : liveNeighbors.length === 3;
+  getBoatCiv(): Civilization {
+    const boatCiv = this.getInitialCiv();
 
-      let nextCellGen: Cell;
+    // make anchors
 
-      if (nextCellIsAlive) {
-        if (liveNeighbors.length === 2) {
-          nextCellGen =
-            liveNeighbors[0] === liveNeighbors[1]
-              ? liveNeighbors[0]
-              : civilization[r][c];
-        } else {
-          nextCellGen = getMajorityNeighbor(liveNeighbors);
-        }
-        return nextCellGen;
-      }
+    // top-left -> h1, w1
+    // bottom-left -> h2, w2
+    // top-right -> h3, w3
+    // bottom-right -> h4, w4
 
-      return 0;
-    };
+    const [h1, w1] = [5, 5];
+    const [h2, w2] = [this.height - 6, 5];
+    const [h3, w3] = [5, this.width - 6];
+    const [h4, w4] = [this.height - 6, this.width - 6];
+
+    // top left
+    boatCiv[h1][w1].state = 1;
+    boatCiv[h1 + 1][w1].state = 1;
+    boatCiv[h1 + 2][w1].state = 1;
+    boatCiv[h1 - 1][w1 + 1].state = 1;
+    boatCiv[h1 + 2][w1 + 1].state = 1;
+    boatCiv[h1 + 2][w1 + 2].state = 1;
+    boatCiv[h1 + 2][w1 + 3].state = 1;
+    boatCiv[h1 + 1][w1 + 4].state = 1;
+    boatCiv[h1 - 1][w1 + 4].state = 1;
+
+    // bottom left
+    boatCiv[h2][w2].state = 2;
+    boatCiv[h2 - 1][w2].state = 2;
+    boatCiv[h2 - 2][w2].state = 2;
+    boatCiv[h2 + 1][w2 + 1].state = 2;
+    boatCiv[h2 - 2][w2 + 1].state = 2;
+    boatCiv[h2 - 2][w2 + 2].state = 2;
+    boatCiv[h2 - 2][w2 + 3].state = 2;
+    boatCiv[h2 + 1][w2 + 4].state = 2;
+    boatCiv[h2 - 1][w2 + 4].state = 2;
+
+    // top right
+    boatCiv[h3][w3].state = 2;
+    boatCiv[h3 + 1][w3].state = 2;
+    boatCiv[h3 + 2][w3].state = 2;
+    boatCiv[h3 - 1][w3 - 1].state = 2;
+    boatCiv[h3 + 2][w3 - 1].state = 2;
+    boatCiv[h3 + 2][w3 - 2].state = 2;
+    boatCiv[h3 + 2][w3 - 3].state = 2;
+    boatCiv[h3 + 1][w3 - 4].state = 2;
+    boatCiv[h3 - 1][w3 - 4].state = 2;
+
+    // bottom right
+    boatCiv[h4][w4].state = 1;
+    boatCiv[h4 - 1][w4].state = 1;
+    boatCiv[h4 - 2][w4].state = 1;
+    boatCiv[h4 + 1][w4 - 1].state = 1;
+    boatCiv[h4 - 2][w4 - 1].state = 1;
+    boatCiv[h4 - 2][w4 - 2].state = 1;
+    boatCiv[h4 - 2][w4 - 3].state = 1;
+    boatCiv[h4 + 1][w4 - 4].state = 1;
+    boatCiv[h4 - 1][w4 - 4].state = 1;
+
+    return boatCiv;
+  }
+
+  getGliderCiv(): Civilization {
+    const gliderCiv = this.getInitialCiv();
+
+    // top left
+    gliderCiv[0][1].state = 1;
+    gliderCiv[1][2].state = 1;
+    gliderCiv[2][0].state = 1;
+    gliderCiv[2][1].state = 1;
+    gliderCiv[2][2].state = 1;
+
+    // bottom left
+    gliderCiv[this.height - 2][0].state = 2;
+    gliderCiv[this.height - 3][1].state = 2;
+    gliderCiv[this.height - 3][2].state = 2;
+    gliderCiv[this.height - 2][2].state = 2;
+    gliderCiv[this.height - 1][2].state = 2;
+
+    // top right
+    gliderCiv[0][this.width - 3].state = 2;
+    gliderCiv[1][this.width - 3].state = 2;
+    gliderCiv[2][this.width - 3].state = 2;
+    gliderCiv[2][this.width - 2].state = 2;
+    gliderCiv[1][this.width - 1].state = 2;
+
+    // bottom right
+    gliderCiv[this.height - 3][this.width - 3].state = 1;
+    gliderCiv[this.height - 3][this.width - 2].state = 1;
+    gliderCiv[this.height - 3][this.width - 1].state = 1;
+    gliderCiv[this.height - 2][this.width - 3].state = 1;
+    gliderCiv[this.height - 1][this.width - 2].state = 1;
+
+    return gliderCiv;
+  }
+
+  getPowerColonyCiv(): Civilization {
+    const powerColony = this.getInitialCiv();
+
+    const midW = ~~(this.width / 2);
+    const midH = ~~(this.height / 2);
+
+    powerColony[midH][midW].state = 1;
+    powerColony[midH - 1][midW - 2].state = 2;
+    powerColony[midH + 1][midW - 2].state = 1;
+    powerColony[midH + 1][midW - 3].state = 2;
+    powerColony[midH + 1][midW + 1].state = 1;
+    powerColony[midH + 1][midW + 2].state = 2;
+    powerColony[midH + 1][midW + 3].state = 1;
+
+    return powerColony;
+  }
+
+  getNextGen(prevGen: Civilization): [boolean, Civilization] {
+    const m = prevGen.length as Coordinate;
+    const n = prevGen[0].length as Coordinate;
+    let changed: boolean = false;
+
+    const nextGen: Civilization = this.getInitialCiv();
 
     for (let r = 0; r < m; r++) {
       for (let c = 0; c < n; c++) {
-        const nextCellGen = nextCell(r, c);
-        if (nextCellGen !== civilization[r][c] && !changed) changed = true;
+        const nextCellGen = this.getNextCellGen(
+          r as Coordinate,
+          c as Coordinate,
+          m,
+          n,
+          prevGen
+        );
+        if (nextCellGen.state !== prevGen[r][c].state && !changed) changed = true;
         nextGen[r][c] = nextCellGen;
       }
     }
 
     return [changed, nextGen];
+  }
+
+  private getNextCellGen(
+    r: Coordinate,
+    c: Coordinate,
+    m: Coordinate,
+    n: Coordinate,
+    prevGen: Civilization
+  ): Cell {
+    const liveNeighborStates = this.getLiveNeighborStates(r, c, m, n, prevGen);
+
+    const nextCellGenIsAlive = prevGen[r][c].state
+      ? liveNeighborStates.length > 1 && liveNeighborStates.length < 4
+      : liveNeighborStates.length === 3;
+
+    let nextCellGen: Cell = {
+      coors: [r, c],
+      state: 0,
+    };
+
+    if (nextCellGenIsAlive) {
+      if (liveNeighborStates.length === 2) {
+        nextCellGen.state =
+          liveNeighborStates[0] === liveNeighborStates[1]
+            ? liveNeighborStates[0]
+            : prevGen[r][c].state;
+      } else {
+        nextCellGen.state = this.getMajorityNeighborState(liveNeighborStates);
+      }
+      return nextCellGen;
+    }
+
+    return nextCellGen;
+  }
+
+  private getMajorityNeighborState([a, b, c]: CellState[]): CellState {
+    if (a === b || a === c) return a;
+    return b;
+  }
+
+  private getLiveNeighborStates(
+    r: Coordinate,
+    c: Coordinate,
+    m: Coordinate,
+    n: Coordinate,
+    prevGen: Civilization
+  ): CellState[] {
+    let liveNeighborStates: CellState[] = [];
+    const isIB = (r: Coordinate, c: Coordinate) =>
+      r >= 0 && c >= 0 && r < m && c < n;
+
+ 
+
+    this._directions.forEach(([dr, dc]) => {
+      const [row, col] = [r + dr, c + dc];
+      if (
+        isIB(row as Coordinate, col as Coordinate) &&
+        prevGen[row][col].state
+      ) {
+        liveNeighborStates.push(prevGen[row][col].state);
+      }
+    });
+
+    return liveNeighborStates;
   }
 }

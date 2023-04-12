@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CivilizationService } from 'src/app/services/civilization.service';
-import { Civilization, Coordinates, Resolution } from './models/app.states';
+import { Civilization, Coordinate, Coordinates, Resolution } from './models/app.types';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +9,10 @@ import { Civilization, Coordinates, Resolution } from './models/app.states';
 })
 export class AppComponent implements OnInit {
   title = 'GoL-angular';
-  width = 0;
-  height = 0;
+  width: Coordinate = 0;
+  height: Coordinate = 0;
   resolution: Resolution = 4;
-  civ: Civilization = [[1, 1]];
+  civ: Civilization = [[{ coors: [0, 0], state: 0 }]];
   running = false;
   startInterval: any;
   yellowsTurn = true;
@@ -25,8 +25,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     const [wWidth, wHeight] = [window.innerWidth, window.innerHeight - 100];
-    this.width = ~~(wWidth / 17);
-    this.height = ~~(wHeight / 16);
+    this.width = (~~(wWidth / 17)) as Coordinate;
+    this.height = (~~(wHeight / 16)) as Coordinate;
     this._civService.width = this.width;
     this._civService.height = this.height;
     this.civ = this._civService.getInitialCiv();
@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
 
   onChildCellClick(eventData: { coors: Coordinates }): void {
     const [r, c] = eventData.coors;
-    this.civ[r][c] = this.yellowsTurn ? 1 : 2;
+    this.civ[r][c].state = this.yellowsTurn ? 1 : 2;
     this.yellowsTurn = !this.yellowsTurn;
   }
 
