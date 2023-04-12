@@ -4,9 +4,9 @@ export type Resolution = Range<3, 8>;
 
 export type Coordinate = Range<0, 100>;
 
-export type Coordinates = [Coordinate, Coordinate];
-
 export type CellState =  Range<0, 3>;
+
+export type Coordinates = [Coordinate, Coordinate];
 
 export interface Cell {
   state: CellState;

@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { CellComponent } from './cell/cell.component';
 import { CivilizationService } from './services/civilization.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Coordinate } from './models/app.types';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
@@ -34,10 +35,10 @@ describe('AppComponent', () => {
 
         app.ngOnInit();
 
-        expect(app.width).toBe(width);
-        expect(app.height).toBe(height);
-        expect(app._civService.width).toBe(width);
-        expect(app._civService.height).toBe(height);
+        expect(app.width).toBe(width as Coordinate);
+        expect(app.height).toBe(height as Coordinate);
+        expect(app._civService.width).toBe(width as Coordinate);
+        expect(app._civService.height).toBe(height as Coordinate);
       })
     });
   });
@@ -106,13 +107,13 @@ describe('AppComponent', () => {
       app.onChildCellClick({ coors: [0, 0] });
 
       // Assert
-      expect(app.civ[0][0]).toBe(1);
+      expect(app.civ[0][0].state).toBe(1);
 
       // Act
       app.onChildCellClick({ coors: [0, 0] });
 
       // Assert
-      expect(app.civ[0][0]).toBe(2);
+      expect(app.civ[0][0].state).toBe(2);
     });
   });
 

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Cell, Coordinates, Resolution } from '../models/app.states';
+import { Cell, Coordinates, Resolution } from '../models/app.types';
 
 @Component({
   selector: 'app-cell',

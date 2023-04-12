@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CivilizationService } from 'src/app/services/civilization.service';
-import { Civilization, Coordinate, Coordinates, Resolution } from './models/app.states';
+import { Civilization, Coordinate, Coordinates, Resolution } from './models/app.types';
 
 @Component({
   selector: 'app-root',
