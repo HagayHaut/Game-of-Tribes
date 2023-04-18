@@ -7,11 +7,11 @@ describe('CivilizationService', () => {
   let height: Coordinate;
   let civService: CivilizationService;
 
-  const randomFromRange = (min: number, max: number): number => {
-    return ~~(Math.random() * (max - min) + min);
+  const randomCoordinateFromRange = (min: Coordinate, max: Coordinate): Coordinate => {
+    return <Coordinate>~~(Math.random() * (max - min) + min);
   };
 
-  beforeEach(async () => {
+  beforeEach(() => {
     width = 50;
     height = 40;
     civService = new CivilizationService(width, height);
@@ -30,7 +30,7 @@ describe('CivilizationService', () => {
     });
 
     it('should initialize a dead civilization', () => {
-      let hasLiveCell: boolean = false;
+      let hasLiveCell = false;
       initialCiv.forEach((row) => {
         row.forEach((cell) => {
           if (cell.state) hasLiveCell = true;
@@ -106,11 +106,11 @@ describe('CivilizationService', () => {
 
     it('should place the boats in the corners, regardless of board size', () => {
       
-      const randomWidth = randomFromRange(50, 100);
-      const randomHeight = randomFromRange(40, 80);
+      const randomWidth = randomCoordinateFromRange(50, 90);
+      const randomHeight = randomCoordinateFromRange(40, 80);
       const randomSizeCivService = new CivilizationService(
-        randomWidth as Coordinate,
-        randomHeight as Coordinate
+        randomWidth,
+        randomHeight
       );
       const randomBoatCiv = randomSizeCivService.getBoatCiv();
 
@@ -152,11 +152,11 @@ describe('CivilizationService', () => {
     });
 
     it('should place the gliders in the corners, regardless of board size', () => {
-      const randomWidth = randomFromRange(50, 100);
-      const randomHeight = randomFromRange(40, 80);
+      const randomWidth = randomCoordinateFromRange(50, 90);
+      const randomHeight = randomCoordinateFromRange(40, 80);
       const randomSizeCivService = new CivilizationService(
-        randomWidth as Coordinate,
-        randomHeight as Coordinate
+        randomWidth,
+        randomHeight
       );
       const randomGliderCiv = randomSizeCivService.getGliderCiv();
 
@@ -192,11 +192,11 @@ describe('CivilizationService', () => {
     });
 
     it('should place the power colony in the center, regardless of board size', () => {
-      const randomWidth = randomFromRange(50, 100);
-      const randomHeight = randomFromRange(40, 80);
+      const randomWidth = randomCoordinateFromRange(50, 90);
+      const randomHeight = randomCoordinateFromRange(40, 80);
       const randomSizeCivService = new CivilizationService(
-        randomWidth as Coordinate,
-        randomHeight as Coordinate
+        randomWidth,
+        randomHeight
       );
       const randomSizePowerColonyCiv = randomSizeCivService.getPowerColonyCiv();
 
