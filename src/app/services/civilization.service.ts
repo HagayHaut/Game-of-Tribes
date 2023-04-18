@@ -1,12 +1,10 @@
-import { map } from 'rxjs';
 import {
   Cell,
   CellState,
   Civilization,
   Coordinate,
+  Increment,
 } from '../models/app.types';
-
-type Increment = -1 | 0 | 1;
 
 export class CivilizationService {
   public width: Coordinate;
@@ -43,17 +41,6 @@ export class CivilizationService {
         };
       });
     });
-    
-    
-    // const civ: Civilization = [];
-    // for (let r = 0; r < height; r++) {
-    //   const row: Cell[] = [];
-    //   for (let c = 0; c < width; c++) {
-    //     row.push({ state: 0, coors: [r as Coordinate, c as Coordinate] });
-    //   }
-    //   civ.push(row);
-    // }
-    // return civ;
   }
 
   getRandomCiv({ width, height } = this): Civilization {
@@ -71,20 +58,6 @@ export class CivilizationService {
         };
       });
     });
-
-    // const civ: Civilization = [];
-    // for (let r = 0; r < height; r++) {
-    //   const row: Cell[] = [];
-    //   for (let c = 0; c < width; c++) {
-    //     const rand = Math.floor(Math.random() * 8);
-    //     row.push({
-    //       state: [1, 2].includes(rand) ? (rand as CellState) : 0,
-    //       coors: [r as Coordinate, c as Coordinate],
-    //     });
-    //   }
-    //   civ.push(row);
-    // }
-    // return civ;
   }
 
   getBoatCiv(): Civilization {
@@ -203,17 +176,19 @@ export class CivilizationService {
   getNextGen(prevGen: Civilization): [boolean, Civilization] {
     const m = prevGen.length as Coordinate;
     const n = prevGen[0].length as Coordinate;
-    let changed: boolean = false;
+    let changed = false;
 
     const nextGen: Civilization = this.getInitialCiv();
 
     for (let r = 0; r < m; r++) {
       for (let c = 0; c < n; c++) {
         const nextCellGen = this.getNextCellGen(
-          r as Coordinate,
-          c as Coordinate,
-          m,
-          n,
+          [
+            r as Coordinate,
+            c as Coordinate,
+            m,
+            n
+          ],
           prevGen
         );
         if (nextCellGen.state !== prevGen[r][c].state && !changed) changed = true;
@@ -225,13 +200,10 @@ export class CivilizationService {
   }
 
   private getNextCellGen(
-    r: Coordinate,
-    c: Coordinate,
-    m: Coordinate,
-    n: Coordinate,
+    [r, c, m, n]: Coordinate[],
     prevGen: Civilization
   ): Cell {
-    const liveNeighborStates = this.getLiveNeighborStates(r, c, m, n, prevGen);
+    const liveNeighborStates = this.getLiveNeighborStates([r, c, m, n], prevGen);
 
     const nextCellGenIsAlive = prevGen[r][c].state
       ? liveNeighborStates.length > 1 && liveNeighborStates.length < 4
@@ -263,10 +235,7 @@ export class CivilizationService {
   }
 
   private getLiveNeighborStates(
-    r: Coordinate,
-    c: Coordinate,
-    m: Coordinate,
-    n: Coordinate,
+    [r, c, m, n]: Coordinate[],
     prevGen: Civilization
   ): CellState[] {
     let liveNeighborStates: CellState[] = [];

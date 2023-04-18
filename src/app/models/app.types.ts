@@ -14,3 +14,5 @@ export interface Cell {
 };
 
 export type Civilization = Cell[][];
+
+export type Increment = -1 | 0 | 1;
