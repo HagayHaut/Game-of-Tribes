@@ -15,7 +15,8 @@ export class CivilizationService {
   constructor(width: Coordinate, height: Coordinate) {
     this.width = width;
     this.height = height;
-    this._directions = [ // includes diagonal
+    this._directions = [
+      // includes diagonal
       [1, 0],
       [-1, 0],
       [0, 1],
@@ -28,36 +29,34 @@ export class CivilizationService {
   }
 
   getInitialCiv(): Civilization {
-    
     return Array(this.height)
-    .fill([])
-    .map((_, r) => {
-      return Array(this.width)
-      .fill({})
-      .map((_, c) => {
-        return <Cell>{
-          state: 0,
-          coors: [r, c],
-        };
+      .fill([])
+      .map((_, r) => {
+        return Array(this.width)
+          .fill({})
+          .map((_, c) => {
+            return <Cell>{
+              state: 0,
+              coors: [r, c],
+            };
+          });
       });
-    });
   }
 
   getRandomCiv({ width, height } = this): Civilization {
-    
     return Array(height)
-    .fill([])
-    .map((_, r) => {
-      return Array(width)
-      .fill({})
-      .map((_, c) => {
-        const rand = Math.floor(Math.random() * 8);
-        return <Cell>{
-          state: [1, 2].includes(rand) ? rand : 0,
-          coors: [r, c],
-        };
+      .fill([])
+      .map((_, r) => {
+        return Array(width)
+          .fill({})
+          .map((_, c) => {
+            const rand = Math.floor(Math.random() * 8);
+            return <Cell>{
+              state: [1, 2].includes(rand) ? rand : 0,
+              coors: [r, c],
+            };
+          });
       });
-    });
   }
 
   getBoatCiv(): Civilization {
@@ -183,15 +182,11 @@ export class CivilizationService {
     for (let r = 0; r < m; r++) {
       for (let c = 0; c < n; c++) {
         const nextCellGen = this.getNextCellGen(
-          [
-            r as Coordinate,
-            c as Coordinate,
-            m,
-            n
-          ],
+          [r as Coordinate, c as Coordinate, m, n],
           prevGen
         );
-        if (nextCellGen.state !== prevGen[r][c].state && !changed) changed = true;
+        if (nextCellGen.state !== prevGen[r][c].state && !changed)
+          changed = true;
         nextGen[r][c] = nextCellGen;
       }
     }
@@ -203,7 +198,10 @@ export class CivilizationService {
     [r, c, m, n]: Coordinate[],
     prevGen: Civilization
   ): Cell {
-    const liveNeighborStates = this.getLiveNeighborStates([r, c, m, n], prevGen);
+    const liveNeighborStates = this.getLiveNeighborStates(
+      [r, c, m, n],
+      prevGen
+    );
 
     const nextCellGenIsAlive = prevGen[r][c].state
       ? liveNeighborStates.length > 1 && liveNeighborStates.length < 4
@@ -241,8 +239,6 @@ export class CivilizationService {
     let liveNeighborStates: CellState[] = [];
     const isIB = (r: Coordinate, c: Coordinate) =>
       r >= 0 && c >= 0 && r < m && c < n;
-
- 
 
     this._directions.forEach(([dr, dc]) => {
       const [row, col] = [r + dr, c + dc];
